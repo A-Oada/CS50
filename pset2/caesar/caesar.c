@@ -73,7 +73,7 @@ string rotate(int key, string input_text)
 
 char rotatelower(int key, char c)
 {
-    //"97" is the value of lower case 'a' in ASCII
+    //"122" is the value of lower case 'z' in ASCII
     int shift = c + key;
     if (shift > 122)
     {
