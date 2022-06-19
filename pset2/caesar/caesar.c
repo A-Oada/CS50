@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 bool digits_only(string input_s);
-string rotate(int key, string input_text);
+char rotate(int key, char input_c);
 char rotatelower(int key, char c);
 char rotateupper(int key, char c);
 
@@ -22,9 +22,14 @@ int main(int argc, string argv[])
     //Get plaintext
     string input_t = get_string("Plaintext:  ");
     //Encrypt text
-    string cipher = rotate(key, input_t);
+    string cipher = input_t;
+    for (int i = 0; i <= strlen(cipher); i++)
+    {
+        cipher[i] = rotate(key, input_t[i]);
+    }
     //Print the text
     printf("ciphertext: %s\n", cipher);
+    return 0;
 }
 
 //This function checks if the key is valid by checking if every single char is a digit from 0 to 9 or not
@@ -42,38 +47,33 @@ bool digits_only(string input_s)
 }
 
 //Function to apply the key to the plaintext
-//The key is applied per digit
-string rotate(int key, string input_text)
+//The key is applied per character
+char rotate(int key, char input_c)
 {
-    char cipher[strlen(input_text)];
-    for (int i = 0; i <= strlen(input_text); i++)
+    char cipher;
+    //If the key is a large number then the remainder when dividing by 26 will yield a key between 1 and 26
+    key = key % 26;
+    //If the character is a lower letter
+    if (islower(input_c))
     {
-        //If the key is a large number then the remainder when dividing by 26 will yield a key between 1 and 26
-        key = key % 26;
-        //If the character is a lower letter
-        if (islower(input_text[i]))
-        {
-            cipher[i] = rotatelower(key, input_text[i]);
-        }
-        //If the character is an upper case letter
-        else if (isupper(input_text[i]))
-        {
-            cipher[i] = rotateupper(key, input_text[i]);
-        }
-        //If the letter does not belong to the alphabet (i.e: commas, question marks, dots...etc)
-        else
-        {
-            cipher[i] = input_text[i];
-        }
+        cipher = rotatelower(key, input_c);
     }
-    //Store the char array in the return string;
-    string cipher_c = cipher;
-    return cipher_c;
+    //If the character is an upper case letter
+    else if (isupper(input_c))
+    {
+        cipher = rotateupper(key, input_c);
+    }
+    //If the letter does not belong to the alphabet (i.e: commas, question marks, dots...etc)
+    else
+    {
+        cipher = input_c;
+    }
+    return cipher;
 }
 
 char rotatelower(int key, char c)
 {
-    //"97" is the value of lower case 'a' in ASCII
+    //"122" is the value of lower case 'z' in ASCII
     int shift = c + key;
     if (shift > 122)
     {
