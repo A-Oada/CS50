@@ -103,8 +103,7 @@ char rotate(char input_c, string key)
 {
     char cipher, upper_alpha[26] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", lower_alpha[26] = "abcdefghijklmnopqrstuvwxyz";
     //If the input letter is lower case
-    //Notice that 97 is 'a' in ASCII and '122' is 'z'
-    if (input_c >= 97 && input_c <= 122)
+    if (islower(input_c))
     {
         for (int i = 0; i <= 25; i++)
         {
@@ -113,8 +112,7 @@ char rotate(char input_c, string key)
         cipher = rotate_letter(input_c, key, lower_alpha);
     }
     //If the input letter is upper case
-    //Notice that 65 is 'A' in ASCII and 90 is 'Z'
-    else if (input_c >= 65 && input_c <= 90)
+    else if (isupper(input_c))
     {
         for (int i = 0; i <= 25; i++)
         {
@@ -134,6 +132,7 @@ char rotate(char input_c, string key)
 char change_key_case(char key, char input)
 {
     //If the input is uppercase, make sure the key is uppercase
+    //At this stage the key is valid so no need to include all possibilities for the key, (i.e: only check if the value of the key in ASCII is more than Z)
     if (isupper(input) && key > 90)
     {
         key = key - 32;
